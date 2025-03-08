@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opium Vibe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Creepster&family=EB+Garamond&family=Fondamento&family=Germania+One&family=Grenze+Gotisch&family=MedievalSharp&family=Metal+Mania&family=Nosifer&family=Pirata+One&family=Playfair+Display&family=Uncial+Antiqua&family=UnifrakturMaguntia&display=swap');
+        
+        :root {
+            --dark: #0a0a0a;
+            --accent: #6b0000;
+            --text: #c7c7c7;
+            --highlight: #420420;
+            --rose: #b30033;
+            --heart: #ff6699;
+            --dark-red: #800000;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            background-image: 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><text x="5" y="14" fill="%23420420" opacity="0.1" transform="rotate(180 10,10)">†</text></svg>'),
+                radial-gradient(circle at center, rgba(10, 10, 10, 0.7) 0%, rgba(0, 0, 0, 0.9) 100%);
+            background-attachment: fixed;
+        }
+        
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 2rem auto;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            padding: 2rem;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(107, 0, 0, 0.3);
+        }
+        
+        .opium-text {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            text-align: justify;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 5px rgba(107, 0, 0, 0.3);
+        }
+        
+        .sorry-text {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #a7a7a7;
+            text-align: center;
+            margin-top: 2rem;
+            border: 1px solid var(--accent);
+            padding: 1.5rem;
+            position: relative;
+            background-color: rgba(10, 10, 10, 0.7);
+            box-shadow: inset 0 0 10px rgba(107, 0, 0, 0.5);
+        }
+        
+        .inverted-cross {
+            font-size: 5rem;
+            color: var(--accent);
+            margin: 2rem auto;
+            transform: rotate(180deg);
+            display: block;
+            text-align: center;
+            text-shadow: 0 0 10px var(--accent);
+        }
+        
+        .beating-cross {
+            display: inline-block;
+            position: relative;
+            font-size: 2rem;
+            color: transparent;
+            margin: 0 0.5rem;
+            transform: rotate(180deg);
+            animation: beat 1.5s infinite alternate;
+            transition: transform 0.3s ease;
+        }
+        
+        .beating-cross::before {
+            content: "†";
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: transparent;
+            text-shadow: 0 0 1px var(--dark-red);
+            -webkit-text-stroke: 1px var(--dark-red);
+        }
+        
+        @keyframes beat {
+            0%, 100% { transform: rotate(180deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+        }
+        
+        .heart {
+            font-size: 2rem;
+            display: inline-block;
+            position: relative;
+            margin: 0 0.5rem;
+            color: var(--heart);
+            text-shadow: 0 0 3px var(--dark-red);
+            font-family: 'Arial', sans-serif;
+        }
+        
+        .heart::before {
+            content: "♥";
+        }
+        
+        .flower {
+            font-size: 1.5rem;
+            display: inline-block;
+            position: relative;
+            margin: 0 0.5rem;
+            color: var(--rose);
+            text-shadow: 0 0 5px var(--dark-red);
+        }
+        
+        .flower::before {
+            content: "✿";
+        }
+        
+        .word {
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        /* Gothic font progression */
+        .word:nth-child(1) { font-family: 'EB Garamond', serif; }
+        .word:nth-child(2) { font-family: 'Playfair Display', serif; }
+        .word:nth-child(3) { font-family: 'Cinzel Decorative', cursive; }
+        .word:nth-child(4) { font-family: 'MedievalSharp', cursive; }
+        .word:nth-child(5) { font-family: 'Fondamento', cursive; }
+        .word:nth-child(6) { font-family: 'Uncial Antiqua', cursive; }
+        .word:nth-child(7) { font-family: 'Germania One', cursive; }
+        .word:nth-child(8) { font-family: 'Pirata One', cursive; }
+        .word:nth-child(9) { font-family: 'Grenze Gotisch', cursive; }
+        .word:nth-child(10) { font-family: 'UnifrakturMaguntia', cursive; }
+        .word:nth-child(11) { font-family: 'Metal Mania', cursive; }
+        .word:nth-child(12) { font-family: 'Creepster', cursive; }
+        .word:nth-child(13) { font-family: 'Nosifer', cursive; }
+        
+        /* Repeat the pattern but with increasing darkness */
+        .word:nth-child(14) { font-family: 'EB Garamond', serif; filter: drop-shadow(0 0 1px var(--accent)); }
+        .word:nth-child(15) { font-family: 'Playfair Display', serif; filter: drop-shadow(0 0 1px var(--accent)); }
+        .word:nth-child(16) { font-family: 'Cinzel Decorative', cursive; filter: drop-shadow(0 0 1px var(--accent)); }
+        .word:nth-child(17) { font-family: 'MedievalSharp', cursive; filter: drop-shadow(0 0 2px var(--accent)); }
+        .word:nth-child(18) { font-family: 'Fondamento', cursive; filter: drop-shadow(0 0 2px var(--accent)); }
+        .word:nth-child(19) { font-family: 'Uncial Antiqua', cursive; filter: drop-shadow(0 0 2px var(--accent)); }
+        .word:nth-child(20) { font-family: 'Germania One', cursive; filter: drop-shadow(0 0 3px var(--accent)); }
+        
+        .word:hover {
+            transform: scale(1.1);
+            color: var(--accent);
+            text-shadow: 0 0 8px var(--accent);
+        }
+        
+        header {
+            width: 100%;
+            padding: 1rem 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            border-bottom: 1px solid var(--accent);
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        header::before, header::after {
+            content: "†";
+            position: absolute;
+            font-size: 3rem;
+            color: var(--accent);
+            transform: rotate(180deg);
+            top: 20px;
+        }
+        
+        header::before {
+            left: 20px;
+        }
+        
+        header::after {
+            right: 20px;
+        }
+        
+        footer {
+            width: 100%;
+            padding: 1rem 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            text-align: center;
+            border-top: 1px solid var(--accent);
+            margin-top: 2rem;
+            position: relative;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .floating-cross {
+            position: absolute;
+            color: var(--accent);
+            opacity: 0.4;
+            transform: rotate(180deg);
+            pointer-events: none;
+            animation: float 8s infinite ease-in-out;
+            filter: drop-shadow(0 0 5px var(--accent));
+        }
+        
+        .floating-flower {
+            position: absolute;
+            color: var(--rose);
+            opacity: 0.4;
+            pointer-events: none;
+            animation: float 10s infinite ease-in-out;
+            font-size: 1.5rem;
+            text-shadow: 0 0 3px var(--dark-red);
+        }
+        
+        .floating-heart {
+            position: absolute;
+            color: var(--heart);
+            opacity: 0.4;
+            pointer-events: none;
+            animation: float 12s infinite ease-in-out;
+            font-size: 1.5rem;
+            text-shadow: 0 0 3px var(--dark-red);
+            font-family: 'Arial', sans-serif;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            font-size: 2rem;
+            color: var(--accent);
+        }
+        
+        .top-left {
+            top: 10px;
+            left: 10px;
+            transform: rotate(180deg);
+        }
+        
+        .top-right {
+            top: 10px;
+            right: 10px;
+            transform: rotate(180deg);
+        }
+        
+        .bottom-left {
+            bottom: 10px;
+            left: 10px;
+            transform: rotate(180deg);
+        }
+        
+        .bottom-right {
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(180deg);
+        }
+        
+        /* Void theme enhancements */
+        .void-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .void-particle {
+            position: absolute;
+            background: rgba(107, 0, 0, 0.2);
+            border-radius: 50%;
+            animation: void-float 20s infinite linear;
+        }
+        
+        @keyframes void-float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>0pi*m <span class="heart"></span> 0pi*m</h1>
+        <div class="inverted-cross">†</div>
+        <span class="flower"></span>
+    </header>
+    
+    <div class="container">
+        <div class="corner-decoration top-left">†</div>
+        <div class="corner-decoration top-right">†</div>
+        <div class="corner-decoration bottom-left">†</div>
+        <div class="corner-decoration bottom-right">†</div>
+        
+        <div class="opium-text">
+            <span class="flower"></span> <span class="word">Darkness</span> <span class="word">consumes</span> <span class="word">the</span> <span class="word">ethereal</span> <span class="word">mind</span> <span class="word">as</span> <span class="word">opium</span> <span class="word">flows</span> <span class="word">through</span> <span class="word">veins</span> <span class="word">like</span> <span class="word">liquid</span> <span class="word">shadows</span>. <span class="heart"></span> <span class="word">Whispers</span> <span class="word">of</span> <span class="word">ancient</span> <span class="word">deities</span> <span class="word">echo</span> <span class="word">within</span> <span class="word">the</span> <span class="word">void</span>. <span class="beating-cross">†</span> <span class="word">Dreams</span> <span class="word">cascade</span> <span class="word">into</span> <span class="word">nightmares</span>, <span class="word">reality</span> <span class="word">bends</span> <span class="word">beyond</span> <span class="word">recognition</span>. <span class="flower"></span> <span class="word">Euphoria</span> <span class="word">intertwines</span> <span class="word">with</span> <span class="word">despair</span>, <span class="word">creating</span> <span class="word">a</span> <span class="word">symphony</span> <span class="word">of</span> <span class="word">contradictions</span>. <span class="heart"></span> <span class="word">Crimson</span> <span class="word">tears</span> <span class="word">fall</span> <span class="word">from</span> <span class="word">obsidian</span> <span class="word">skies</span>, <span class="word">baptizing</span> <span class="word">the</span> <span class="word">earth</span> <span class="word">in</span> <span class="word">sacred</span> <span class="word">agony</span>. <span class="beating-cross">†</span> <span class="word">Inverted</span> <span class="word">crosses</span> <span class="word">mark</span> <span class="word">the</span> <span class="word">path</span> <span class="word">to</span> <span class="word">enlightenment</span>, <span class="word">guiding</span> <span class="word">lost</span> <span class="word">souls</span> <span class="word">through</span> <span class="word">the</span> <span class="word">labyrinth</span> <span class="word">of</span> <span class="word">consciousness</span>. <span class="flower"></span> <span class="word">Opium</span> <span class="word">dreams</span> <span class="word">reveal</span> <span class="word">truths</span> <span class="word">hidden</span> <span class="word">beneath</span> <span class="word">veils</span> <span class="word">of</span> <span class="word">perception</span>. <span class="heart"></span> <span class="word">Eternal</span> <span class="word">night</span> <span class="word">embraces</span> <span class="word">those</span> <span class="word">who</span> <span class="word">seek</span> <span class="word">its</span> <span class="word">comfort</span>. <span class="beating-cross">†</span> <span class="word">Velvet</span> <span class="word">darkness</span> <span class="word">caresses</span> <span class="word">broken</span> <span class="word">spirits</span>, <span class="word">offering</span> <span class="word">solace</span> <span class="word">in</span> <span class="word">oblivion</span>.
+            
+            <span class="flower"></span> <span class="word">Moonlight</span> <span class="word">fractures</span> <span class="word">against</span> <span class="word">shattered</span> <span class="word">mirrors</span>, <span class="word">reflecting</span> <span class="word">fragments</span> <span class="word">of</span> <span class="word">forgotten</span> <span class="word">memories</span>. <span class="heart"></span> <span class="word">Absinthe</span> <span class="word">mingles</span> <span class="word">with</span> <span class="word">opium</span> <span class="word">smoke</span>, <span class="word">creating</span> <span class="word">phantoms</span> <span class="word">that</span> <span class="word">dance</span> <span class="word">between</span> <span class="word">dimensions</span>. <span class="beating-cross">†</span> <span class="word">Decadent</span> <span class="word">pleasure</span> <span class="word">becomes</span> <span class="word">divine</span> <span class="word">punishment</span>, <span class="word">each</span> <span class="word">sensation</span> <span class="word">a</span> <span class="word">double-edged</span> <span class="word">blade</span>. <span class="flower"></span> <span class="word">Alabaster</span> <span class="word">skin</span> <span class="word">glows</span> <span class="word">beneath</span> <span class="word">candlelight</span>, <span class="word">marked</span> <span class="word">with</span> <span class="word">sigils</span> <span class="word">of</span> <span class="word">forbidden</span> <span class="word">knowledge</span>. <span class="heart"></span> <span class="word">Serpents</span> <span class="word">coil</span> <span class="word">around</span> <span class="word">pillars</span> <span class="word">of</span> <span class="word">salt</span>, <span class="word">whispering</span> <span class="word">secrets</span> <span class="word">of</span> <span class="word">immortality</span>. <span class="beating-cross">†</span> <span class="word">Thorns</span> <span class="word">pierce</span> <span class="word">velvet</span> <span class="word">flesh</span>, <span class="word">each</span> <span class="word">drop</span> <span class="word">of</span> <span class="word">blood</span> <span class="word">a</span> <span class="word">sacrament</span> <span class="word">to</span> <span class="word">unseen</span> <span class="word">gods</span>.
+            
+            <span class="flower"></span> <span class="word">Hallucinations</span> <span class="word">become</span> <span class="word">prophetic</span> <span class="word">visions</span>, <span class="word">revealing</span> <span class="word">apocalyptic</span> <span class="word">futures</span> <span class="word">through</span> <span class="word">kaleidoscopic</span> <span class="word">lenses</span>. <span class="heart"></span> <span class="word">Abyssal</span> <span class="word">depths</span> <span class="word">call</span> <span class="word">with</span> <span class="word">siren</span> <span class="word">songs</span>, <span class="word">promising</span> <span class="word">transcendence</span> <span class="word">through</span> <span class="word">surrender</span>. <span class="beating-cross">†</span> <span class="word">Ritualistic</span> <span class="word">chants</span> <span class="word">echo</span> <span class="word">through</span> <span class="word">abandoned</span> <span class="word">cathedrals</span>, <span class="word">invoking</span> <span class="word">entities</span> <span class="word">beyond</span> <span class="word">mortal</span> <span class="word">comprehension</span>. <span class="flower"></span> <span class="word">Opium</span> <span class="word">poppies</span> <span class="word">bloom</span> <span class="word">in</span> <span class="word">graveyards</span>, <span class="word">nourished</span> <span class="word">by</span> <span class="word">the</span> <span class="word">essence</span> <span class="word">of</span> <span class="word">departed</span> <span class="word">souls</span>. <span class="heart"></span> <span class="word">Melancholy</span> <span class="word">becomes</span> <span class="word">an</span> <span class="word">art</span> <span class="word">form</span>, <span class="word">each</span> <span class="word">tear</span> <span class="word">a</span> <span class="word">brushstroke</span> <span class="word">on</span> <span class="word">the</span> <span class="word">canvas</span> <span class="word">of</span> <span class="word">existence</span>.
+        </div>
+        <div class="sorry-text">
+            <span class="beating-cross">†</span> I'm not sorry for the darkness that consumed this world. <span class="heart"></span> I don't give a fuck about the pain I caused to anyone or anything. <span class="flower"></span> I'm not sorry for the times I vanished without a trace. <span class="beating-cross">†</span> I don't give a fuck about breaking promises that meant nothing to me anyway. <span class="heart"></span> I'm not sorry for the trust I obliterated like it was nothing. <span class="flower"></span> I don't give a fuck about the words I spat out that can never be erased. <span class="beating-cross">†</span> I'm not sorry for not being there when society collapsed. <span class="heart"></span> I don't give a fuck about the tears anyone shed because of my existence. <span class="flower"></span> I'm not sorry for the apocalypse we're facing now. <span class="beating-cross">†</span> I don't give a fuck about the future that's burning before our eyes. <span class="heart"></span> I'm not sorry for not appreciating what humanity had until it was destroyed. <span class="flower"></span> I don't give a fuck about the void that grows between reality and oblivion. <span class="beating-cross">†</span> I'm not sorry and I don't give a fuck that nothing will ever be enough to fix what's broken. <span class="heart"></span> I don't give a fuck about anyone's feelings. <span class="flower"></span> I'm not sorry for anything that happens. <span class="beating-cross">†</span> I don't give a fuck what the universe thinks of me. <span class="heart"></span> I'm not sorry for existing without purpose. <span class="flower"></span> I don't give a fuck about the suffering that permeates everything. <span class="beating-cross">†</span> I'm not sorry for choosing chaos over order every fucking time.
+        </div>
+    </div>
+    <footer>
+        <div class="inverted-cross">†</div>
+        <span class="heart"></span>
+        <p>Embrace the void <span class="flower"></span> Forever</p>
+        <span class="heart"></span>
+    </footer>
+    
+    <!-- Add floating decorations -->
+    <div class="floating-cross" style="top: 15%; left: 5%; font-size: 2rem;">†</div>
+    <div class="floating-cross" style="top: 35%; right: 8%; font-size: 3rem;">†</div>
+    <div class="floating-cross" style="bottom: 25%; left: 12%; font-size: 2.5rem;">†</div>
+    <div class="floating-flower" style="top: 25%; right: 15%;">✿</div>
+    <div class="floating-flower" style="bottom: 15%; left: 20%;">✿</div>
+    <div class="floating-heart" style="top: 45%; left: 15%;">♥</div>
+    <div class="floating-heart" style="bottom: 35%; right: 10%;">♥</div>
+    
+    <!-- Void particles -->
+    <div class="void-particles" id="void-particles"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const words = document.querySelectorAll('.word');
+            words.forEach(word => {
+                word.addEventListener('mouseover', function() {
+                    this.style.transform = 'scale(1.2)';
+                    this.style.color = '#' + Math.floor(Math.random()*16777215).toString(16);
+                    this.style.textShadow = '0 0 8px ' + this.style.color;
+                });
+                word.addEventListener('mouseout', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.color = '';
+                    this.style.textShadow = '';
+                });
+            });
+            
+            // Add subtle animation to crosses and hearts
+            const decorations = document.querySelectorAll('.inverted-cross, .heart, .flower');
+            decorations.forEach(decoration => {
+                decoration.addEventListener('mouseover', function() {
+                    this.style.transform = this.classList.contains('inverted-cross') ? 
+                        'rotate(180deg) scale(1.2)' : 'scale(1.2)';
+                    this.style.opacity = '1';
+                    this.style.filter = 'drop-shadow(0 0 5px var(--accent))';
+                });
+                decoration.addEventListener('mouseout', function() {
+                    this.style.transform = this.classList.contains('inverted-cross') ? 
+                        'rotate(180deg)' : '';
+                    this.style.opacity = '';
+                    this.style.filter = '';
+                });
+            });
+            
+            // Create void particles
+            const voidParticles = document.getElementById('void-particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('void-particle');
+                particle.style.width = Math.random() * 5 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                voidParticles.appendChild(particle);
+            }
+            
+            // Add mouse tracking for beating crosses
+            const beatingCrosses = document.querySelectorAll('.beating-cross');
+            document.addEventListener('mousemove', function(e) {
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                
+                beatingCrosses.forEach(cross => {
+                    const rect = cross.getBoundingClientRect();
+                    const crossX = rect.left + rect.width / 2;
+                    const crossY = rect.top + rect.height / 2;
+                    
+                    // Calculate angle between cross and mouse
+                    const deltaX = mouseX - crossX;
+                    const deltaY = mouseY - crossY;
+                    const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                    
+                    // Only tilt if mouse is within reasonable distance
+                    if (distance < 300) {
+                        const tiltX = deltaX / distance * 20;
+                        const tiltY = deltaY / distance * 20;
+                        cross.style.transform = `rotate(${180 + tiltX}deg) skew(${tiltY}deg, ${tiltX}deg)`;
+                    } else {
+                        cross.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
